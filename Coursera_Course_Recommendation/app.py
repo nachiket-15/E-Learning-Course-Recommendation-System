@@ -58,18 +58,16 @@ def recommend(course, rating_weight=0.5):
 '''
 
 def recommend(query, rating_weight=0.1):
-    # Check if the query exactly matches a course name
     exact_match = data[data['Course_Name'] == query]
 
 
     if not exact_match.empty:
         course_index = exact_match.index[0]
     else:
-        # If no exact match, assume it's a skill and find courses related to it
         skill_matches = data[data['Skills_Gained'].str.contains(query)]
         if skill_matches.empty:
             return [], []
-        # Take the first matched course
+        
         course_index = skill_matches.index[0]
 
     distances = similarity[course_index]
