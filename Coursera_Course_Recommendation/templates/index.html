@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Recommendation System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Course Recommendation System</h1>
+        <form id="recommendation-form" class="text-center mb-4">
+            <div class="form-row justify-content-center">
+                <div class="form-group col-md-6">
+                    <label for="course" class="sr-only">Enter Course:</label>
+                    <input type="text" id="course" name="course" class="form-control" placeholder="Enter Course">
+                </div>
+                <div class="form-group col-md-2">
+                    <button type="submit" class="btn btn-primary btn-block">Recommend</button>
+                </div>
+            </div>
+        </form>
+        <div id="recommended-courses" class="row justify-content-center"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        function goToLink(link) {
+            window.open(link, '_blank');
+        }
+
+        $(document).ready(function(){
+            $('#recommendation-form').submit(function(event){
+                event.preventDefault();
+                var course = $('#course').val();
+                $.ajax({
+                    url: '/recommend',
+                    method: 'POST',
+                    data: {course: course},
+                    success: function(response){
+                        var recommendedCourses = response.recommended_courses;
+                        var recommendedLinks = response.recommended_links;
+                        $('#recommended-courses').empty();
+                        $.each(recommendedCourses, function(index, course){
+                            var link = recommendedLinks[index];
+                            var card = `
+                                <div class="col-md-4 mb-4">
+                                    <div class="card">
+                                        <div class="card-body custom-bg-blue" >
+                                            <h5 class="card-title">${course}</h5>
+                                            <button class="btn btn-primary" onclick="goToLink('${link}')">Go to Course</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            $('#recommended-courses').append(card);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

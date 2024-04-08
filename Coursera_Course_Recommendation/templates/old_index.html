@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Course Recommender System</h1>
+    <form id="recommendation-form">
+        <label for="course">Enter Course:</label>
+        <input type="text" id="course" name="course">
+        <button type="submit">Recommend</button>
+    </form>
+    <div id="recommended-courses"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        function goToLink(link) {
+            window.open(link, '_blank');
+        }
+
+        $(document).ready(function(){
+            $('#recommendation-form').submit(function(event){
+                event.preventDefault();
+                var course = $('#course').val();
+                $.ajax({
+                    url: '/recommend',
+                    method: 'POST',
+                    data: {course: course},
+                    success: function(response){
+                        var recommendedCourses = response.recommended_courses;
+                        var recommendedLinks = response.recommended_links;
+                        $('#recommended-courses').empty();
+                        $('#recommended-courses').append('<h2>Recommended Courses:</h2>');
+                        $.each(recommendedCourses, function(index, course){
+                    var link = recommendedLinks[index];
+                    $('#recommended-courses').append('<p>' + course + ' <button onclick="goToLink(\'' + link + '\')">Go to Course</button></p>');
+                });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
