@@ -1,6 +1,6 @@
 # Course Recommendation System
 
-![Project Image](project_image.png)
+![Project Image](Screenshot from 2024-04-08 13-21-25.png)
 
 ## Overview
 This is a course recommendation system that suggests relevant courses based on user input, either a course name or a skill. It uses a combination of cosine similarity and user ratings to provide accurate recommendations.
