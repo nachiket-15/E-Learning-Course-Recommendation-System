@@ -57,7 +57,7 @@ def recommend(course, rating_weight=0.5):
 
 '''
 
-def recommend(query, rating_weight=0.5):
+def recommend(query, rating_weight=0.1):
     # Check if the query exactly matches a course name
     exact_match = data[data['Course_Name'] == query]
 
