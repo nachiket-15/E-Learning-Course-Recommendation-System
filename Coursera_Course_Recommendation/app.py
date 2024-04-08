@@ -8,7 +8,7 @@ from langdetect import detect
 app = Flask(__name__)
 
 
-data = pd.read_csv('coursera_data.csv')
+data = pd.read_csv('Coursera_Course_Recommendation/coursera_data.csv')
 
 
 data['Ratings'].fillna(data['Ratings'].median(), inplace=True)
