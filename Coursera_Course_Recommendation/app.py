@@ -54,7 +54,6 @@ def recommend(course, rating_weight=0.5):
     
     return recommended_courses, recommended_links
 
-
 '''
 
 def recommend(query, rating_weight=0.1):
